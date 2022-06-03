@@ -1,0 +1,42 @@
+{
+
+  "Stack_Form_Title": {
+    "message": "标题"
+  },
+  "Stack_Form_Description": {
+    "message": "简介"
+  },
+  "Stack_Form_Time": {
+    "message": "时间"
+  },
+  "Stack_Form_Comment": {
+    "message": "备注"
+  },
+  "Stack_Form_RelatedTimeline": {
+    "message": "相关时间线"
+  },
+  "Footer_About": {
+    "message": "关于浪潮"
+  },
+  "Footer_Participate": {
+    "message": "参与项目开发"
+  },
+  "Share_Site_Twitter": {
+    "message": "Twitter"
+  },
+  "Share_Site_Weibo": {
+    "message": "微博"
+  },
+  "Share_Site_Telegram": {
+    "message": "Telegram"
+  },
+  "UI_Login_Button": {
+    "message": "登录浪潮"
+  },
+  "UI_Add_To_Event_Button": {
+    "message": "添加新闻"
+  },
+  "extension_description": {
+    "message": "将当前新闻添加至浪潮时间线"
+  }
+}

@@ -1,0 +1,42 @@
+{
+
+  "Stack_Form_Title": {
+    "message": "Title"
+  },
+  "Stack_Form_Description": {
+    "message": "Description"
+  },
+  "Stack_Form_Time": {
+    "message": "Time"
+  },
+  "Stack_Form_Comment": {
+    "message": "Comment"
+  },
+  "Stack_Form_RelatedTimeline": {
+    "message": "Related timeline"
+  },
+  "Footer_About": {
+    "message": "About Surge"
+  },
+  "Footer_Participate": {
+    "message": "Join our team"
+  },
+  "Share_Site_Twitter": {
+    "message": "Twitter"
+  },
+  "Share_Site_Weibo": {
+    "message": "Weibo"
+  },
+  "Share_Site_Telegram": {
+    "message": "Telegram"
+  },
+  "UI_Login_Button": {
+    "message": "Login to Surge"
+  },
+  "UI_Add_To_Event_Button": {
+    "message": "Add News to Event"
+  },
+  "extension_description": {
+    "message": "Extension for adding news to surge timeline."
+  }
+}
