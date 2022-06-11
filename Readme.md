@@ -2,20 +2,20 @@
 
 Wave is a browser extension for adding news for [Surge](https://langchao.org) easily. 
 
-# Development
+## Development
 
 ```
 npm install
 npm run watch
 ```
 
-# Building for Use
+## Building for Use
 
 ```
 npm run bulid
 ```
 
-# Known Issues
+## Known Issues
 
 TODO
 

@@ -1,15 +1,11 @@
 import { PAGE_URL } from '../../common/constants';
 import Link from '../Link';
-import iconLogo from '../../public/images/icon.svg';
+import Logo from '../Logo';
 
 function Footer() {
   return (
     <div className="footer">
-      <div className="logo-container">
-        <Link href={PAGE_URL.HOME}>
-          <img alt="logo-icon" className="icon logo" src={iconLogo} />
-        </Link>
-      </div>
+      <Logo />
       <div className="content">
         <div>
           <Link href={PAGE_URL.ABOUT}>
@@ -42,10 +38,11 @@ function Footer() {
           .footer {
             text-align: center;
             font-size: 0.8rem;
-            margin: 1rem 0 1rem 0;
+            padding: 1rem;
           }
 
-          a, span {
+          .footer a,
+          .footer span {
             line-height: 1.75;
             color: #586069;
             text-decoration: none;
