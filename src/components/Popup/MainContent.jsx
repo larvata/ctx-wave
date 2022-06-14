@@ -1,21 +1,17 @@
 import { useRef, useState, useEffect } from 'react';
-import Mercury from '@postlight/mercury-parser';
-import moment from 'moment';
+import PropTypes from 'prop-types';
+import Mercury from 'mercury-parser';
+import dayjs from 'dayjs';
 import {
   Input,
   Button,
   Select,
-  DatePicker,
   message,
 } from 'antd';
 
 import { fetchJSON } from '../../common/utils';
-import {
-  WAVE_EVENTS,
-  PAGE_URL,
-  API_URL,
-} from '../../common/constants';
-import Link from '../Link';
+import { API_URL } from '../../common/constants';
+import DatePicker from '../DatePicker';
 
 message.config({
   top: 60,
@@ -28,39 +24,17 @@ function setSubmitMessage(level, content) {
   });
 }
 
-function LoginContent() {
-  return (
-    <div className="login">
-      <Link className="button primary" href={PAGE_URL.LOGIN}>
-        <Button type="primary">
-          {chrome.i18n.getMessage('UI_Login_Button')}
-        </Button>
-      </Link>
-      <style jsx="true">
-        {`
-          .login {
-            text-align: center;
-            margin: 20px;
-          }
-          .login .button {
-            padding: 10px;
-          }
-        `}
-      </style>
-    </div>
-  );
-}
-
 function MainContent(props) {
   const [newsContent, setNewsContent] = useState({
     url: '',
     title: '',
     abstract: '',
-    time: moment(),
+    time: dayjs(),
     source: '',
     comment: '',
   });
-  const [profile, setProfile] = useState(props.profile);
+
+  const { profile } = props;
   const [submitting, setSubmitting] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState(profile.events[0].id);
   const mainContentRef = useRef(null);
@@ -90,7 +64,7 @@ function MainContent(props) {
                 url: result.url,
                 title: result.title,
                 abstract: result.excerpt.slice(0, 200),
-                time: result.date_published ? moment(result.date_published) : moment(),
+                time: result.date_published ? dayjs(result.date_published) : dayjs(),
                 source: result.domain,
               },
             });
@@ -98,21 +72,7 @@ function MainContent(props) {
         },
       );
     });
-
-    // reload event list from langchao.org
-    chrome.runtime.sendMessage(
-      {
-        event: WAVE_EVENTS.REFRESH,
-      },
-      (response) => {
-        setProfile(response);
-      },
-    );
   }, []);
-
-  if (!profile) {
-    return <LoginContent />;
-  }
 
   const onSubmitClick = () => {
     setSubmitting(true);
@@ -235,5 +195,16 @@ function MainContent(props) {
     </div>
   );
 }
+
+MainContent.propTypes = {
+  profile: PropTypes.shape({
+    events: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
+};
 
 export default MainContent;

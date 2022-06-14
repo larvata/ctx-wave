@@ -11,7 +11,6 @@ function messageAddListener(eventName, callback) {
   });
 }
 
-
 const saveAndSendResponse = (key, data, sendResponse) => {
   chrome.storage.local.set({
     [key]: data,
@@ -21,47 +20,29 @@ const saveAndSendResponse = (key, data, sendResponse) => {
 };
 
 messageAddListener(WAVE_EVENTS.REFRESH, (request, sender, sendResponse) => {
-  /* method 1
-  chrome.storage.local.get('profile', async (response) => {
-    let { profile } = response;
-    if (!profile) {
-      const { success, data } = await fetchJSON(API_URL.CLIENT_ME);
-      if (!success) {
-        saveAndSendResponse('profile', profile, sendResponse);
-        return;
-      }
-      profile = data.client;
-    }
-
-    const { username } = profile;
-    const { success, data } = await fetchJSON(`${API_URL.CLIENT}/${username}`);
-    if (success) {
-      profile.events = data.client.events;
-    }
-    saveAndSendResponse('profile', profile, sendResponse);
-  });
-  */
-
-  // method 2
   let profile = null;
+
+  // get login status
   fetchJSON(API_URL.CLIENT_ME).then(({ success, data }) => {
     if (!success) {
-      saveAndSendResponse('profile', null, sendResponse);
+      saveAndSendResponse('profile', profile, sendResponse);
       return Promise.resolve();
     }
 
+    // get event list
     profile = data.client;
     return fetchJSON(`${API_URL.CLIENT}/${data.client.username}`)
-      .then(({ success, data }) => {
-        if (!success) {
-          saveAndSendResponse('profile', null, sendResponse);
+      .then(({ success: _success, data: _data }) => {
+        if (!_success) {
+          saveAndSendResponse('profile', profile, sendResponse);
           return;
         }
 
-        profile.events = data.client.events;
+        profile.events = _data.client.events;
         saveAndSendResponse('profile', profile, sendResponse);
       });
   });
+
   return true;
 });
 

@@ -21,6 +21,9 @@
   "Footer_Participate": {
     "message": "Join our team"
   },
+  "Footer_Feedback": {
+    "message": "Feedback"
+  },
   "Share_Site_Twitter": {
     "message": "Twitter"
   },
@@ -34,7 +37,10 @@
     "message": "Login to Surge"
   },
   "UI_Add_To_Event_Button": {
-    "message": "Add News to Event"
+    "message": "Add News to Timeline"
+  },
+  "extension_name": {
+    "message": "Wave for Surge"
   },
   "extension_description": {
     "message": "Extension for adding news to surge timeline."

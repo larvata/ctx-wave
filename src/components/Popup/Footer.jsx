@@ -12,24 +12,10 @@ function Footer() {
             {chrome.i18n.getMessage('Footer_About')}
           </Link>
           <span>·</span>
-          <Link href={PAGE_URL.GITHUB}>
-            {chrome.i18n.getMessage('Footer_Participate')}
+          <Link href={PAGE_URL.FEEDBACK}>
+            {chrome.i18n.getMessage('Footer_Feedback')}
           </Link>
         </div>
-        <div>
-          <Link href={PAGE_URL.TWITTER}>
-            {chrome.i18n.getMessage('Share_Site_Twitter')}
-          </Link>
-          <span>·</span>
-          <Link href={PAGE_URL.WEIBO}>
-            {chrome.i18n.getMessage('Share_Site_Weibo')}
-          </Link>
-          <span>·</span>
-          <Link href={PAGE_URL.TELEGRAM}>
-            {chrome.i18n.getMessage('Share_Site_Telegram')}
-          </Link>
-        </div>
-
         <span>{`Langchao.org ${new Date().getFullYear()}`}</span>
       </div>
 

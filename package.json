@@ -1,8 +1,7 @@
 {
   "name": "ctx-wave",
-  "version": "0.1.0",
+  "version": "1.0.2",
   "description": "Web Browser Extesion for langchao.org",
-  "main": "index.js",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
@@ -12,11 +11,13 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.17.12",
     "babel-loader": "^8.2.5",
+    "babel-plugin-import": "^1.13.5",
+    "babel-plugin-lodash": "^3.3.4",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
@@ -28,16 +29,14 @@
     "eslint-plugin-react-hooks": "^4.5.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.0",
+    "prop-types": "^15.8.1",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.9.0"
   },
   "dependencies": {
-    "@postlight/mercury-parser": "^2.2.1",
     "antd": "^4.21.0",
-    "moment": "^2.29.3",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "rc-picker": "^2.6.9",
     "sharp": "^0.30.5"
   }
 }

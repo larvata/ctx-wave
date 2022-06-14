@@ -21,6 +21,9 @@
   "Footer_Participate": {
     "message": "参与项目开发"
   },
+  "Footer_Feedback": {
+    "message": "插件问题反馈"
+  },
   "Share_Site_Twitter": {
     "message": "Twitter"
   },
@@ -35,6 +38,9 @@
   },
   "UI_Add_To_Event_Button": {
     "message": "添加新闻"
+  },
+  "extension_name": {
+    "message": "浪潮助手(Wave)"
   },
   "extension_description": {
     "message": "将当前新闻添加至浪潮时间线"

@@ -1,18 +1,34 @@
-import { createRoot } from 'react-dom/client';
-import 'antd/dist/antd.css';
+import { createRoot } from 'react-dom';
+import { useState, useEffect } from 'react';
 
 import Header from './Header';
 import MainContent from './MainContent';
+import LoginContent from './LoginContent';
 import Footer from './Footer';
 import {
   WAVE_EVENTS,
 } from '../../common/constants';
 
 function Popup(props) {
+  const [profile, setProfile] = useState(props.profile);
+
+  useEffect(() => {
+    chrome.runtime.sendMessage(
+      {
+        event: WAVE_EVENTS.REFRESH,
+      },
+      (response) => {
+        setProfile(response);
+      },
+    );
+  }, []);
+
+  const Content = (profile && profile.events) ? MainContent : LoginContent;
+
   return (
     <div className="popup">
       <Header />
-      <MainContent {...props} />
+      <Content profile={profile} />
       <Footer />
       <style jsx="true">
         {`
@@ -62,8 +78,8 @@ chrome.runtime.sendMessage(
   {
     event: WAVE_EVENTS.GET_PROFILE,
   },
-  (response) => {
+  (profile) => {
     const root = createRoot(document.getElementById('root'));
-    root.render(<Popup profile={response} />);
+    root.render(<Popup profile={profile} />);
   },
 );

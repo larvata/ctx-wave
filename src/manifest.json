@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Wave for Surge",
+  "name": "__MSG_extension_name__",
   "default_locale": "en",
 
   "description": "__MSG_extension_description__",

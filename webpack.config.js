@@ -59,7 +59,10 @@ const config = {
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Langchao Popup</title>
+        <title>Wave for Surge Extension Popup</title>
+        <script src="vendors/react.production.min.js"></script>
+        <script src="vendors/react-dom.production.min.js"></script>
+        <script src="vendors/mercury.web.js"></script>
     </head>
     <body>
       <div id="root" />
@@ -80,6 +83,10 @@ const config = {
         {
           from: './src/_locales',
           to: '_locales',
+        },
+        {
+          from: './src/public/vendors',
+          to: 'vendors',
         },
         ...pluginResizeAndCopyIcons(),
       ],
@@ -108,6 +115,12 @@ const config = {
   },
 
   devtool: 'cheap-module-source-map',
+
+  externals: {
+    react: 'window.React',
+    'react-dom': 'window.ReactDOM',
+    'mercury-parser': 'window.Mercury',
+  },
 };
 
 module.exports = () => {

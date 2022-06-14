@@ -1,6 +1,11 @@
 # Wave for Surge
 
-Wave is a browser extension for adding news for [Surge](https://langchao.org) easily. 
+Wave is a browser extension that lets you add the news you are browsing directly to your [Surge](https://langchao.org) timeline.
+
+
+## Install
+
+TODO
 
 ## Development
 
@@ -9,17 +14,13 @@ npm install
 npm run watch
 ```
 
-## Building for Use
+## Publish
 
 ```
+# build production version
 npm run bulid
+
+# prepare the package for publish
+./pack
 ```
-
-## Known Issues
-
-TODO
-
-
-
-
 

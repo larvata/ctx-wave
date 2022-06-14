@@ -1,5 +1,14 @@
 module.exports = {
-  plugins: [],
+  plugins: [
+    'lodash',
+    [
+      'import', {
+        libraryName: 'antd',
+        style: 'css',
+      },
+      'antd'
+    ],
+  ],
   presets: [
     [
       '@babel/preset-env',

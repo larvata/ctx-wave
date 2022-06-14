@@ -11,9 +11,10 @@ const PAGE_URL = {
   LOGIN: `${URL_BASE}/login`,
   ABOUT: `${URL_BASE}/about`,
   GITHUB: 'https://github.com/surgefm',
-  TWITTER: 'ttps://twitter.com/langchao_org',
+  TWITTER: 'https://twitter.com/langchao_org',
   WEIBO: 'https://www.weibo.com/v2land',
   TELEGRAM: 'https://t.me/+o5T_HxHHgYdjMTJl',
+  FEEDBACK: 'https://github.com/larvata/ctx-wave/issues/new',
 };
 
 const API_URL = {
