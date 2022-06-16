@@ -39,13 +39,20 @@ function MainContent(props) {
   const [selectedEventId, setSelectedEventId] = useState(profile.events[0].id);
   const mainContentRef = useRef(null);
 
-  useEffect(() => {
-    // extract content from current tab
-    chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-    }).then((tabs) => {
-      const [tab] = tabs;
+  const extractHtml = async () => {
+    const url = window.location.href;
+    const tab = await new Promise((resolve) => {
+      chrome.tabs.query({
+        active: true,
+        currentWindow: true,
+      }, (tabs) => resolve(tabs[0]));
+    });
+    if (url.startsWith('safari-web-extension://')) {
+      // eslint-disable-next-line no-undef
+      const [html] = await browser.tabs.executeScript(tab.id, { code: 'document.documentElement.innerHTML' });
+      return [tab.url, html];
+    }
+    const htmlResult = await new Promise((resolve) => {
       chrome.scripting.executeScript(
         {
           target: { tabId: tab.id },
@@ -53,25 +60,30 @@ function MainContent(props) {
             html: document.documentElement.innerHTML,
           }),
         },
-        ([htmlResult]) => {
-          Mercury.parse(tab.url, {
-            html: htmlResult.result.html,
-          }).then((result) => {
-            // extract new content
-            setNewsContent({
-              ...newsContent,
-              ...{
-                url: result.url,
-                title: result.title,
-                abstract: result.excerpt.slice(0, 200),
-                time: result.date_published ? dayjs(result.date_published) : dayjs(),
-                source: result.domain,
-              },
-            });
-          });
-        },
+        resolve,
       );
     });
+    return [tab.url, htmlResult.result.html];
+  };
+
+  const updateNewsContent = async () => {
+    const [url, html] = await extractHtml();
+    const result = await Mercury.parse(url, { html });
+    setNewsContent({
+      ...newsContent,
+      ...{
+        url: result.url,
+        title: result.title,
+        abstract: result.excerpt.slice(0, 200),
+        time: result.date_published ? dayjs(result.date_published) : dayjs(),
+        source: result.domain,
+      },
+    });
+  };
+
+  useEffect(() => {
+    // extract content from current tab
+    updateNewsContent();
   }, []);
 
   const onSubmitClick = () => {
