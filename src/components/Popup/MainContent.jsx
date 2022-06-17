@@ -9,7 +9,7 @@ import {
   message,
 } from 'antd';
 
-import { fetchJSON } from '../../common/utils';
+import { promisify, fetchJSON } from '../../common/utils';
 import { API_URL } from '../../common/constants';
 import DatePicker from '../DatePicker';
 
@@ -40,39 +40,42 @@ function MainContent(props) {
   const mainContentRef = useRef(null);
 
   const extractHtml = async () => {
-    const url = window.location.href;
-    const tab = await new Promise((resolve) => {
-      chrome.tabs.query({
-        active: true,
-        currentWindow: true,
-      }, (tabs) => resolve(tabs[0]));
+    const manifestVersion = browser.runtime.getManifest().manifest_version;
+    const [tab] = await promisify(browser.tabs.query)({
+      active: true,
+      currentWindow: true,
     });
-    if (url.startsWith('safari-web-extension://')) {
-      // eslint-disable-next-line no-undef
-      const [html] = await browser.tabs.executeScript(tab.id, { code: 'document.documentElement.innerHTML' });
-      return [tab.url, html];
+
+    const result = {
+      url: tab.url,
+    };
+
+    if (manifestVersion === 2) {
+      const [html] = await promisify(browser.tabs.executeScript)(tab.id, {
+        code: 'document.documentElement.innerHTML',
+      });
+      result.html = html;
+    } else if (manifestVersion === 3) {
+      const [data] = await promisify(browser.scripting.executeScript)({
+        target: { tabId: tab.id },
+        func: () => document.documentElement.innerHTML,
+      });
+      result.html = data.result;
     }
-    const htmlResult = await new Promise((resolve) => {
-      chrome.scripting.executeScript(
-        {
-          target: { tabId: tab.id },
-          func: () => ({
-            html: document.documentElement.innerHTML,
-          }),
-        },
-        resolve,
-      );
-    });
-    return [tab.url, htmlResult.result.html];
+
+    return result;
   };
 
   const updateNewsContent = async () => {
-    const [url, html] = await extractHtml();
+    const {
+      url,
+      html,
+    } = await extractHtml();
     const result = await Mercury.parse(url, { html });
     setNewsContent({
       ...newsContent,
       ...{
-        url: result.url,
+        url,
         title: result.title,
         abstract: result.excerpt.slice(0, 200),
         time: result.date_published ? dayjs(result.date_published) : dayjs(),
@@ -120,7 +123,7 @@ function MainContent(props) {
 
           <div className="row">
             <label htmlFor="url">
-              {chrome.i18n.getMessage('Stack_Form_Title')}
+              {browser.i18n.getMessage('Stack_Form_Title')}
             </label>
             <Input
               id="url"
@@ -134,7 +137,7 @@ function MainContent(props) {
 
           <div className="row">
             <label htmlFor="abstract">
-              {chrome.i18n.getMessage('Stack_Form_Description')}
+              {browser.i18n.getMessage('Stack_Form_Description')}
             </label>
             <Input
               id="abstract"
@@ -148,7 +151,7 @@ function MainContent(props) {
 
           <div className="row">
             <label htmlFor="date">
-              {chrome.i18n.getMessage('Stack_Form_Time')}
+              {browser.i18n.getMessage('Stack_Form_Time')}
             </label>
             <DatePicker
               style={{ width: '100%' }}
@@ -162,7 +165,7 @@ function MainContent(props) {
 
           <div className="row">
             <label htmlFor="comment">
-              {chrome.i18n.getMessage('Stack_Form_Comment')}
+              {browser.i18n.getMessage('Stack_Form_Comment')}
             </label>
             <Input
               id="comment"
@@ -176,7 +179,7 @@ function MainContent(props) {
 
           <div className="row">
             <label htmlFor="events">
-              {chrome.i18n.getMessage('Stack_Form_RelatedTimeline')}
+              {browser.i18n.getMessage('Stack_Form_RelatedTimeline')}
             </label>
             <Select
               id="events"
@@ -199,11 +202,18 @@ function MainContent(props) {
               loading={submitting}
               onClick={onSubmitClick}
             >
-              {chrome.i18n.getMessage('UI_Add_To_Event_Button')}
+              {browser.i18n.getMessage('UI_Add_To_Event_Button')}
             </Button>
           </div>
         </div>
       </div>
+      <style jsx="true">
+        {`
+          body {
+            height: 570px;
+          }
+        `}
+      </style>
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import { WAVE_EVENTS, API_URL } from './common/constants';
-import { fetchJSON } from './common/utils';
+import { setGlobalVariables, fetchJSON } from './common/utils';
+
+setGlobalVariables();
 
 function messageAddListener(eventName, callback) {
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const { event } = request;
     if (event !== eventName) {
       return false;
@@ -12,7 +14,7 @@ function messageAddListener(eventName, callback) {
 }
 
 const saveAndSendResponse = (key, data, sendResponse) => {
-  chrome.storage.local.set({
+  browser.storage.local.set({
     [key]: data,
   }, () => {
     sendResponse(data);
@@ -47,7 +49,7 @@ messageAddListener(WAVE_EVENTS.REFRESH, (request, sender, sendResponse) => {
 });
 
 messageAddListener(WAVE_EVENTS.GET_PROFILE, (request, sender, sendResponse) => {
-  chrome.storage.local.get('profile', (response) => {
+  browser.storage.local.get('profile', (response) => {
     sendResponse(response.profile);
   });
   return true;

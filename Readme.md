@@ -12,7 +12,11 @@ TODO
 ```
 npm install
 npm run watch
+
+// build manifest v2 version
+MANIFEST_VERSION=2 npm run watch
 ```
+
 
 ## Publish
 

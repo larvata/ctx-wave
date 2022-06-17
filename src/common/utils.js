@@ -1,3 +1,7 @@
+function setGlobalVariables() {
+  globalThis.browser = globalThis.chrome || globalThis.browser;
+}
+
 async function fetchJSON(url, options) {
   const result = {
     success: false,
@@ -24,6 +28,17 @@ async function fetchJSON(url, options) {
   }
 }
 
+function promisify(func) {
+  return (...options) => new Promise((resolve, reject) => {
+    // TODO handle reject()
+    func.call(func, ...options, (results) => {
+      resolve(results);
+    });
+  });
+}
+
 export {
+  promisify,
   fetchJSON,
+  setGlobalVariables,
 };

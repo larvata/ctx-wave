@@ -11,6 +11,12 @@ const pkg = require('./package.json');
 const isProduction = process.env.NODE_ENV === 'production';
 const stylesHandler = MiniCssExtractPlugin.loader;
 
+// v3: chrome, edge
+// v2: firefox, safari
+const targetManifestVersion = (process.env.MANIFEST_VERSION === '2')
+  ? 2
+  : 3;
+
 const pluginResizeAndCopyIcons = () => {
   const METADATA = [{
     name: 'app-icon-16',
@@ -30,6 +36,46 @@ const pluginResizeAndCopyIcons = () => {
     from: 'src/public/images/icon.png',
     to: `icons/${md.name}.png`,
     transform: (content) => sharp(content).resize(md.size).toBuffer(),
+  }));
+};
+
+const pluginCreateManifests = () => {
+  const METADATA = [{
+    version: 2,
+    default: false,
+  }, {
+    version: 3,
+    default: false,
+  }, {
+    version: targetManifestVersion,
+    default: true,
+  }];
+
+  const buildManifest = (content, targetVersion) => {
+    const manifest = JSON.parse(content.toString());
+    manifest.version = pkg.version;
+
+    if (targetVersion === 2) {
+      manifest.manifest_version = 2;
+      manifest.version = pkg.version;
+      manifest.permissions = [...manifest.permissions, ...manifest.host_permissions];
+      delete manifest.host_permissions;
+      manifest.browser_action = manifest.action;
+      manifest.browser_action.default_icon = manifest.icons;
+      delete manifest.action;
+      manifest.background.scripts = [].concat(manifest.background.service_worker);
+      delete manifest.background.service_worker;
+    } else if (targetVersion === 3) {
+      // nope
+    }
+
+    return JSON.stringify(manifest, null, 2);
+  };
+
+  return METADATA.map((md) => ({
+    from: './src/manifest.json',
+    to: (md.default ? 'manifest.json' : `manifests/manifest.v${md.version}.json`),
+    transform: (content) => buildManifest(content, md.version),
   }));
 };
 
@@ -73,14 +119,6 @@ const config = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: './src/manifest.json',
-          transform: (content) => {
-            const manifest = JSON.parse(content.toString());
-            manifest.version = pkg.version;
-            return JSON.stringify(manifest, null, 2);
-          },
-        },
-        {
           from: './src/_locales',
           to: '_locales',
         },
@@ -88,6 +126,7 @@ const config = {
           from: './src/public/vendors',
           to: 'vendors',
         },
+        ...pluginCreateManifests(),
         ...pluginResizeAndCopyIcons(),
       ],
     }),

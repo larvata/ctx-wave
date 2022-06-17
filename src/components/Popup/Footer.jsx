@@ -9,11 +9,11 @@ function Footer() {
       <div className="content">
         <div>
           <Link href={PAGE_URL.ABOUT}>
-            {chrome.i18n.getMessage('Footer_About')}
+            {browser.i18n.getMessage('Footer_About')}
           </Link>
           <span>·</span>
           <Link href={PAGE_URL.FEEDBACK}>
-            {chrome.i18n.getMessage('Footer_Feedback')}
+            {browser.i18n.getMessage('Footer_Feedback')}
           </Link>
         </div>
         <span>{`Langchao.org ${new Date().getFullYear()}`}</span>

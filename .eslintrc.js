@@ -16,5 +16,6 @@ module.exports = {
   },
   globals: {
     chrome: true,
+    browser: true,
   },
 };

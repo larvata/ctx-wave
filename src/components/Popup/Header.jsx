@@ -5,7 +5,7 @@ function Header() {
     <div className="header">
       <Logo />
       <span className="title">
-        {chrome.i18n.getMessage('extension_name')}
+        {browser.i18n.getMessage('extension_name')}
       </span>
       <style jsx="true">
         {`

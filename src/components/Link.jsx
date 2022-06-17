@@ -2,7 +2,7 @@ function onLinkClick(href) {
   if (!href) {
     return;
   }
-  chrome.tabs.create({ url: href });
+  browser.tabs.create({ url: href });
 }
 
 function Link(props) {

@@ -8,12 +8,15 @@ import Footer from './Footer';
 import {
   WAVE_EVENTS,
 } from '../../common/constants';
+import { setGlobalVariables } from '../../common/utils';
+
+setGlobalVariables();
 
 function Popup(props) {
   const [profile, setProfile] = useState(props.profile);
 
   useEffect(() => {
-    chrome.runtime.sendMessage(
+    browser.runtime.sendMessage(
       {
         event: WAVE_EVENTS.REFRESH,
       },
@@ -33,10 +36,10 @@ function Popup(props) {
       <style jsx="true">
         {`
           html {
-            width: 300px;
           }
 
           body {
+            width: 300px;
             margin: 0;
             background-color: #f6f8fa;
           }
@@ -74,7 +77,7 @@ function Popup(props) {
   );
 }
 
-chrome.runtime.sendMessage(
+browser.runtime.sendMessage(
   {
     event: WAVE_EVENTS.GET_PROFILE,
   },

@@ -7,12 +7,12 @@ function LoginContent() {
     <div className="login">
       <Link className="button primary" href={PAGE_URL.LOGIN}>
         <Button type="primary">
-          {chrome.i18n.getMessage('UI_Login_Button')}
+          {browser.i18n.getMessage('UI_Login_Button')}
         </Button>
       </Link>
       <style jsx="true">
         {`
-          html {
+          body {
             height: 245px;
           }
           .login {
