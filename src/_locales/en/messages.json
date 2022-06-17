@@ -36,6 +36,12 @@
   "UI_Login_Button": {
     "message": "Login to Surge"
   },
+  "UI_Home_Button": {
+    "message": "Manage Timeline on Surge"
+  },
+  "UI_Manage_Timeline": {
+    "message": "You don't create any timeline."
+  },
   "UI_Add_To_Event_Button": {
     "message": "Add News to Timeline"
   },

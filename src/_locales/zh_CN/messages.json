@@ -36,6 +36,12 @@
   "UI_Login_Button": {
     "message": "登录浪潮"
   },
+  "UI_Home_Button": {
+    "message": "前往浪潮管理时间线"
+  },
+  "UI_Manage_Timeline": {
+    "message": "您尚未创建任何时间线"
+  },
   "UI_Add_To_Event_Button": {
     "message": "添加新闻"
   },

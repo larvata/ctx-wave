@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 import Header from './Header';
 import MainContent from './MainContent';
-import LoginContent from './LoginContent';
+import ErrorContent from './ErrorContent';
 import Footer from './Footer';
 import {
   WAVE_EVENTS,
@@ -26,12 +26,19 @@ function Popup(props) {
     );
   }, []);
 
-  const Content = (profile && profile.events) ? MainContent : LoginContent;
+  let content = null;
+  if (!profile || !profile.events) {
+    content = <ErrorContent showLogin={true} />;
+  } else if (!profile.events.length) {
+    content = <ErrorContent showHome={true} />;
+  } else {
+    content = <MainContent profile={profile} />;
+  }
 
   return (
     <div className="popup">
       <Header />
-      <Content profile={profile} />
+      {content}
       <Footer />
       <style jsx="true">
         {`
