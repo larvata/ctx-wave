@@ -41,12 +41,6 @@ const pluginResizeAndCopyIcons = () => {
 
 const pluginCreateManifests = () => {
   const METADATA = [{
-    version: 2,
-    default: false,
-  }, {
-    version: 3,
-    default: false,
-  }, {
     version: targetManifestVersion,
     default: true,
   }];
